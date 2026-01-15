@@ -49,7 +49,7 @@ def _probe(path):
         tags = s.get("tags") or {}
         out.append({
             "codec": _n(s.get("codec_name")),
-            "lang":  _n(tags.get("language")),
+            "lang": _n(tags.get("language")),
             "title": _n(tags.get("title")),
         })
     return out
@@ -116,7 +116,6 @@ def on_library_management_file_test(data):
         data["issues"].append({"id": "jf_truehd_vf_filetest", "message": "No audio streams"})
         return data
 
-    # If no TrueHD/MLP anywhere -> skip
     if not any(s["codec"] in TRUEHD for s in streams):
         data["add_file_to_pending_tasks"] = False
         return data
@@ -125,7 +124,6 @@ def on_library_management_file_test(data):
     orig_ok = _orig_compat(streams)
     vf_ok = (not vf) or _vf_compat(streams)
 
-    # If already have compatible fallback for required languages -> skip
     if orig_ok and vf_ok:
         data["add_file_to_pending_tasks"] = False
         return data
